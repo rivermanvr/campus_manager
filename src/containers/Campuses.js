@@ -70,7 +70,7 @@ class Campuses extends Component {
 
   render() {
     console.log('...........props in render: ', this.props)  //--------TODO---------------
-    const campuses = this.props.campuses;
+    const campuses = this.props.campuses.campuses;
     
     if (!campuses.length) return <div></div>;
     const none = [{ id: '0', name: '--none--' }];
@@ -163,8 +163,8 @@ class Campuses extends Component {
 function mapStateToProps (state) {
   //not ready to wire this yet-------------------------------------TODO----------------
   console.log('.....in mapStateTo Props: ', state);
-  const { campusesState } = state;
-  return { campusesState };
+  const { campuses } = state;
+  return { campuses };
 }
 
 function mapDispatchToProps (dispatch) {

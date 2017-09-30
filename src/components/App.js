@@ -34,6 +34,7 @@ export default class AppContainer extends Component {
     .then(results => {
       const campuses = results[0].data
       const students = results[1].data
+      console.log('App.getData(campuses & students): ', campuses, students)
       this.setState({ students, campuses });
     })
   }
@@ -119,7 +120,6 @@ export default class AppContainer extends Component {
         
         <Route
           path="/" render={ () => <Campuses
-            campuses={ campuses }
             addCampus={ this.addCampus }
             removeCampus={ this.removeCampus }
             /> }
