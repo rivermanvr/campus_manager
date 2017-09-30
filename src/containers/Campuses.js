@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 class Campuses extends Component {
@@ -157,4 +158,13 @@ class Campuses extends Component {
   }
 }
 
-export default Campuses;
+function mapStateToProps (state) {
+  return state;
+}
+
+// Anything returned from this function will end up as props
+// on the BookList container
+function mapDispatchToProps (dispatch) {
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Campuses);
