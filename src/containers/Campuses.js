@@ -70,6 +70,7 @@ class Campuses extends Component {
 
   render() {
     const campuses = this.props.campuses;
+    
     if (!campuses.length) return <div></div>;
     const none = [{ id: '0', name: '--none--' }];
     let campusesSelect = none.concat(campuses);
