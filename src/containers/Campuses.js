@@ -69,6 +69,7 @@ class Campuses extends Component {
   }
 
   render() {
+    console.log('...........props in render: ', this.props)  //--------TODO---------------
     const campuses = this.props.campuses;
     
     if (!campuses.length) return <div></div>;
@@ -159,13 +160,14 @@ class Campuses extends Component {
   }
 }
 
-function mapStateToProps (state) {
-  return state;
+function mapStateToProps ({ campusesState }) {
+  //not ready to wire this yet-------------------------------------TODO----------------
+  console.log('.....in mapStateTo Props: ', campusesState);
+  return { campusesState };
 }
 
-// Anything returned from this function will end up as props
-// on the BookList container
 function mapDispatchToProps (dispatch) {
+  return {}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Campuses);
