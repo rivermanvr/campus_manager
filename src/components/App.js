@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import axios from 'axios';
 
-import Navbar from './NavBar';
-import Campuses from './Campuses';
-import Campus from './Campus';
-import Students from './Students';
-import Student from './Student'
+import Navbar from '../containers/NavBar';
+import Campuses from '../containers/Campuses';
+import Campus from '../containers/Campus';
+import Students from '../containers/Students';
+import Student from '../containers/Student'
 
 export default class AppContainer extends Component {
   constructor() {
