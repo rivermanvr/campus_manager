@@ -160,9 +160,10 @@ class Campuses extends Component {
   }
 }
 
-function mapStateToProps ({ campusesState }) {
+function mapStateToProps (state) {
   //not ready to wire this yet-------------------------------------TODO----------------
-  console.log('.....in mapStateTo Props: ', campusesState);
+  console.log('.....in mapStateTo Props: ', state);
+  const { campusesState } = state;
   return { campusesState };
 }
 
