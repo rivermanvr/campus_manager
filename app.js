@@ -8,6 +8,7 @@ const routes = require( './routes/api' );
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
 app.use('/css', express.static(path.join(__dirname, 'css')));
+app.use('/public', express.static(path.join(__dirname, '/public')));
 app.use('/vendor/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap')));
 
 app.use(bodyParser.urlencoded({ extended: false }));
