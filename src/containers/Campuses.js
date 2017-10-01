@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { addCampus, removeCampus } from '../actions';
 
 class Campuses extends Component {
   constructor({ campuses, addCampus, removeCampus }) {
@@ -168,7 +170,7 @@ function mapStateToProps (state) {
 }
 
 function mapDispatchToProps (dispatch) {
-  return {}
+  return bindActionCreators({ addCampus, removeCampus }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Campuses);
