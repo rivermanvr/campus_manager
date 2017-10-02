@@ -19,6 +19,7 @@ export function addCampus(campusNew) {
 }
 
 export function fetchData() {
+  console.log('came into fetchData')
   return Promise.all([
     axios.get('/api/campuses'),
     axios.get('/api/students')
@@ -26,6 +27,40 @@ export function fetchData() {
   .then(results => {
     const campuses = results[0].data
     const students = results[1].data
+    console.log('in fetchData: ', students, campuses)
     return { type: FETCH_DATA, payload: { students, campuses } };
   })
 }
+
+
+// need to convert this.........TODO............
+
+  // addCampus(newCampus) {
+  //   axios.post('api/campuses', newCampus)
+  // }
+
+  // removeCampus(id) {
+  //   axios.delete(`api/campuses/${ id }`)
+  // }
+
+  // addStudent(newStudent) {
+  //   axios.post('api/students', newStudent)
+  // }
+
+  // removeStudent(id) {
+  //   axios.delete(`api/students/${ id }`)
+  // }
+
+  // changeStudentCampus(id) {
+  //   axios.put(`api/students/${ id }/campus`)
+  // }
+
+  // updateCampus(campusChg) {
+  //   const id = campusChg.campus.id;
+  //   axios.put(`/api/campuses/${ id }`, campusChg)
+  // }
+
+  // updateStudent(studentChg) {
+  //   const id = studentChg.student.id;
+  //   axios.put(`/api/students/${ id }`, studentChg)
+  // }
