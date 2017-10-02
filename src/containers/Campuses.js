@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { addCampus, removeCampus, fetchData } from '../actions';
 
 class Campuses extends Component {
-  constructor({ campuses, addCampus, removeCampus }) {
+  constructor() {
     super();
     this.state = { name: '', phone: '',
       photo: '/assets/images/Campus-Gargoyle-v2.jpeg',
@@ -30,12 +30,8 @@ class Campuses extends Component {
 
   componentDidMount() {
     this.clearState();
-    console.log('props: ', this.props)
+    console.log('in componentDidMount')
     this.props.fetchData();
-  }
-
-  componentWillReceiveProps() {
-    this.clearState();
   }
 
   handleRemove(event) {
@@ -73,7 +69,6 @@ class Campuses extends Component {
   }
 
   render() {
-    console.log('...........props in render: ', this.props)  //--------TODO---------------
     const campuses = this.props.campuses.campuses;
     
     if (!campuses.length) return <div></div>;

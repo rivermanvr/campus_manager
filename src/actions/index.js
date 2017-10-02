@@ -26,7 +26,6 @@ export function fetchData() {
   .then(results => {
     const campuses = results[0].data
     const students = results[1].data
-    console.log('in fetchData: ', students, campuses)
     return { type: GOT_NEW_DATA, payload: { students, campuses } };
   })
 }

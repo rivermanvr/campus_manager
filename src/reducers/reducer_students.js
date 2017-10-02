@@ -1,3 +1,5 @@
+import { GOT_NEW_DATA } from '../actions';
+
 const initialState = {
   students: [],
   selectedStudent: {},
@@ -5,6 +7,10 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-  console.log('in reducer_students: ', state, action);
-  return state;
+  switch(action.type) {
+    case GOT_NEW_DATA:
+      return Object.assign({}, state, { students: action.payload.students });
+    default:
+      return state;
+  }
 };

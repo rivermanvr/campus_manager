@@ -124,7 +124,7 @@ class Campus extends Component {
                 </div>
                 <div className="margintop">
                   <label>Photo (url):</label>
-                  <label className="tabrightsm">{ this.state.photo }</label>
+                  <div className="tabrightsm">{ this.state.photo }</div>
                 </div>
                 <button className="btn btn-primary margintop marginbelow" type="submit">Update Campus</button>
                 <div className="center textRed marginbelow">{ this.state.errorAdd }</div>
