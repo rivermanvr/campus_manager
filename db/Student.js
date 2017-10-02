@@ -16,7 +16,10 @@ const defineAttr = {
       else this.setDataValue('photo', value);
     }
   },
-  phone: db.Sequelize.STRING,
+  phone: {
+    type: db.Sequelize.STRING,
+    defaultValue: ''
+  },
   email: {
     type: db.Sequelize.STRING,
     allowNull: false,
