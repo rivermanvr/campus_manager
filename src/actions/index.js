@@ -19,7 +19,7 @@ export function addCampus(campusNew) {
 }
 
 export function fetchData() {
-  Promise.all([
+  return Promise.all([
     axios.get('/api/campuses'),
     axios.get('/api/students')
   ])
