@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { addCampus, removeCampus } from '../actions';
+import { addCampus, removeCampus, fetchData } from '../actions';
 
 class Campuses extends Component {
   constructor({ campuses, addCampus, removeCampus }) {
@@ -30,6 +30,8 @@ class Campuses extends Component {
 
   componentDidMount() {
     this.clearState();
+    console.log('props: ', this.props)
+    this.props.fetchData();
   }
 
   componentWillReceiveProps() {
@@ -170,7 +172,7 @@ function mapStateToProps (state) {
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({ addCampus, removeCampus }, dispatch);
+  return bindActionCreators({ addCampus, removeCampus, fetchData }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Campuses);

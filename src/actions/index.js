@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // ***** ACTION TYPES *****
 
-export const FETCH_DATA = 'FETCH_DATA';
+export const GOT_NEW_DATA = 'GOT_NEW_DATA';
 export const REMOVE_CAMPUS = 'REMOVE_CAMPUS';
 export const ADD_CAMPUS = 'ADD_CAMPUS';
 
@@ -19,7 +19,6 @@ export function addCampus(campusNew) {
 }
 
 export function fetchData() {
-  console.log('came into fetchData')
   return Promise.all([
     axios.get('/api/campuses'),
     axios.get('/api/students')
@@ -28,7 +27,7 @@ export function fetchData() {
     const campuses = results[0].data
     const students = results[1].data
     console.log('in fetchData: ', students, campuses)
-    return { type: FETCH_DATA, payload: { students, campuses } };
+    return { type: GOT_NEW_DATA, payload: { students, campuses } };
   })
 }
 
