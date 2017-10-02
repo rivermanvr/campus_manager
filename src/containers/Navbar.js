@@ -35,7 +35,6 @@ class Navbar extends Component {
 }
 
 function mapStateToProps (state, { router }) {
-  //------------checking my work----------------
   const { campuses, students } = state;
   return { campuses, students, router };
 }

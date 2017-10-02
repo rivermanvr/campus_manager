@@ -14,8 +14,8 @@ export function removeCampus(campusId) {
 }
 
 export function addCampus(campusNew) {
-  console.log('in campusAdd action: ', campusNew)
-  return { type: ADD_CAMPUS, payload: campusNew };
+  return axios.post('api/campuses', campusNew)
+  .then(() => fetchData())
 }
 
 export function fetchData() {

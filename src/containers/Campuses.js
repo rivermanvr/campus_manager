@@ -46,7 +46,8 @@ class Campuses extends Component {
   handleSubmit(event) {
     event.preventDefault();
     if (this.state.name) {
-      this.props.addCampus(this.state);
+      this.props.addCampus(this.state)
+      this.clearState();
     } else {
       this.setState({ errorAdd: 'The name field is required', errorRemove: '' });
     }
