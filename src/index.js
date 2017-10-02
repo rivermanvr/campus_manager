@@ -6,5 +6,10 @@ import { HashRouter as Router } from 'react-router-dom';
 
 import App from './components/App';
 
-ReactDOM.render(<Provider store={ store }><Router><App /></Router></Provider>,
+ReactDOM.render(
+  <Provider store={ store }>
+    <Router>
+      <App />
+    </Router>
+  </Provider>,
   document.getElementById('root'));
