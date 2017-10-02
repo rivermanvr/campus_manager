@@ -5,10 +5,10 @@ const initialState = {
     photo: '/assets/images/Bldg-3.jpeg', students: [{ name:'Vince Rios' }] }
   ],
   selectedCampus: {},
-  campusStudents: [],
-  campusSelectBox: ''
+  campusStudents: []
 }
 
 export default (state = initialState, action) => {
+  console.log('in reducer_campuses: ', state, action);
   return state;
 };

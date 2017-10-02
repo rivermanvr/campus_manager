@@ -5,5 +5,6 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
+  console.log('in reducer_students: ', state, action);
   return state;
 };

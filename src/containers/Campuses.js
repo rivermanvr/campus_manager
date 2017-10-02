@@ -17,14 +17,6 @@ class Campuses extends Component {
     this.clearState = this.clearState.bind(this);
   }
 
-  componentDidMount() {
-    this.clearState();
-  }
-
-  componentWillReceiveProps() {
-    this.clearState();
-  }
-
   clearState() {
     this.setState({
       name: '',
@@ -34,6 +26,14 @@ class Campuses extends Component {
       errorAdd: '',
       errorRemove: '',
     })
+  }
+
+  componentDidMount() {
+    this.clearState();
+  }
+
+  componentWillReceiveProps() {
+    this.clearState();
   }
 
   handleRemove(event) {
@@ -163,7 +163,7 @@ class Campuses extends Component {
 }
 
 function mapStateToProps (state) {
-  //not ready to wire this yet-------------------------------------TODO----------------
+  //------------checking my work----------------
   console.log('.....in mapStateTo Props: ', state);
   const { campuses } = state;
   return { campuses };
