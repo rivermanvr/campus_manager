@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { gotSingleCampus, changeStudentCampus } from '../actions';
+import { gotSingleCampus, changeStudentCampus, updateCampus } from '../actions';
 
 class Campus extends Component {
   constructor() {
@@ -12,32 +12,34 @@ class Campus extends Component {
       phone: '', errorAdd: '' };
 
     this.handleRemove = this.handleRemove.bind(this);
-    this.getData = this.getData.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInput = this.handleInput.bind(this);
-  }
-
-  getData() {
-    this.setState({
-      id: this.props.selectedCampus.id,
-      name: this.props.selectedCampus.name,
-      photo: this.props.selectedCampus.photo.slice(15),
-      phone: this.props.selectedCampus.phone,
-      errorAdd: ''
-    })
   }
 
   componentDidMount(){
     const campusId = this.props.router.match.params.id;
     this.props.gotSingleCampus(campusId)
     .then(() => {
-      this.getData();
+      this.setState({
+        id: this.props.selectedCampus.id,
+        name: this.props.selectedCampus.name,
+        photo: this.props.selectedCampus.photo.slice(15),
+        phone: this.props.selectedCampus.phone,
+        errorAdd: ''
+      })
     })
   }
 
-  componentWillReceiveProps() {
-    if (!this.props.selectedCampus.id) return;
-    this.getData();
+  componentWillReceiveProps(nextProps) {
+    //there is also: currentProps
+    if (!nextProps.selectedCampus.id) return;
+    this.setState({
+      id: nextProps.selectedCampus.id,
+      name: nextProps.selectedCampus.name,
+      photo: nextProps.selectedCampus.photo.slice(15),
+      phone: nextProps.selectedCampus.phone,
+      errorAdd: ''
+    })
   }
 
   handleRemove(event) {
@@ -49,7 +51,7 @@ class Campus extends Component {
     if (this.state.name) {
       const campusChg = this.state;
       campusChg.photo = this.props.selectedCampus.photo;
-      // this.props.updateCampus(campusChg);
+      this.props.updateCampus(campusChg);
     } else {
       this.setState({ errorAdd: 'Name cannot be blank', name: this.state.campus.name });
     }
@@ -72,29 +74,29 @@ class Campus extends Component {
     if (!this.props.selectedCampus.id) return <div></div>;
     const campus = this.props.selectedCampus;
     const students = campus.students;
-    //only if students exist
-    let studentsList = <li></li>
-    if (students) {
-      const buttonRemove = (
-        (campus.id === 1) ?
-        'btn btn-danger hidden margintopsm marginbelow pull-right moveupsm' :
-        'btn btn-danger margintopsm marginbelow pull-right moveupsm');
-      studentsList = students.map(student => {
-        return (
-          <li className="list-group-item marginbelowsm" key={ student.id }>
-            <div className="marginbelowsm margintopsm">
-              <Link to={ `/student/${ student.id }` }><strong>{student.name}</strong></Link>
-              <button
-                className={ buttonRemove }
-                value={ student.id }
-                onClick={ this.handleRemove }>
-                Remove from Campus
-              </button>
-            </div>
-          </li>
-        )
-      })
-    }
+    //only if students exist & remove button on unassigned campus
+      let studentsList = <li></li>
+      if (students) {
+        const buttonRemove = (
+          (campus.id === 1) ?
+          'btn btn-danger hidden margintopsm marginbelow pull-right moveupsm' :
+          'btn btn-danger margintopsm marginbelow pull-right moveupsm');
+        studentsList = students.map(student => {
+          return (
+            <li className="list-group-item marginbelowsm" key={ student.id }>
+              <div className="marginbelowsm margintopsm">
+                <Link to={ `/student/${ student.id }` }><strong>{student.name}</strong></Link>
+                <button
+                  className={ buttonRemove }
+                  value={ student.id }
+                  onClick={ this.handleRemove }>
+                  Remove from Campus
+                </button>
+              </div>
+            </li>
+          )
+        })
+      }
     //.....................
     return (
       <div>
@@ -119,8 +121,8 @@ class Campus extends Component {
                   <label>Name: </label>
                   <input
                     name="name"
-                    value={ this.state.name }
                     onChange={ this.handleInput }
+                    value={ this.state.name }
                     className="setWidth tabrightsm"
                     type="text">
                   </input>
@@ -129,8 +131,8 @@ class Campus extends Component {
                   <label>Phone: </label>
                   <input
                     name="phone"
-                    value={ this.state.phone }
                     onChange={ this.handleInput }
+                    value={ this.state.phone }
                     className="setWidth tabrightsm"
                     type="text">
                   </input>
@@ -156,7 +158,7 @@ function mapStateToProps (state, { router }) {
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({ gotSingleCampus, changeStudentCampus }, dispatch);
+  return bindActionCreators({ gotSingleCampus, changeStudentCampus, updateCampus }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Campus);

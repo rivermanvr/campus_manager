@@ -8,12 +8,12 @@ export const GOT_SINGLE_CAMPUS = 'GOT_SINGLE_CAMPUS';
 // ***** THUNK & ACTION CREATORS *****
 
 export function removeCampus(campusId) {
-  return axios.delete(`api/campuses/${ campusId }`)
+  return axios.delete(`/api/campuses/${ campusId }`)
   .then(() => fetchData())
 }
 
 export function addCampus(campusNew) {
-  return axios.post('api/campuses', campusNew)
+  return axios.post('/api/campuses', campusNew)
   .then(() => fetchData())
 }
 
@@ -39,9 +39,19 @@ export function gotSingleCampus(campusId) {
 }
 
 export function changeStudentCampus(id, campusId) {
-  return axios.put(`api/students/${ id }/campus`)
+  return axios.put(`/api/students/${ id }/campus`)
   .then(() => gotSingleCampus(campusId))
 }
+
+export function updateCampus(campusChg) {
+    const campusId = campusChg.id;
+    return axios.put(`/api/campuses/${ campusId }`, campusChg)
+    .then(res => res.data)
+    .then(campus => {
+      console.log('returned campusInst', campus)
+      return gotSingleCampus(campus.id)
+    })
+  }
 
 
 // need to convert this.........TODO............
@@ -54,10 +64,6 @@ export function changeStudentCampus(id, campusId) {
   //   axios.delete(`api/students/${ id }`)
   // }
 
-  // updateCampus(campusChg) {
-  //   const id = campusChg.campus.id;
-  //   axios.put(`/api/campuses/${ id }`, campusChg)
-  // }
 
   // updateStudent(studentChg) {
   //   const id = studentChg.student.id;

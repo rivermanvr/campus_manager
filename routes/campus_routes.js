@@ -34,11 +34,13 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
-  models.Campus.findById(req.params.id)
+  console.log('in route: ', req.params.id)
+  models.Campus.findById(req.params.id * 1)
     .then(campus => {
       campus.name =  req.body.name;
       campus.photo = req.body.photo;
       campus.phone = req.body.phone;
+      console.log('--------->', campus)
       return campus.save();
     })
   .then(campus => {
