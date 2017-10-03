@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { gotSingleCampus } from '../actions';
+import { gotSingleCampus, changeStudentCampus } from '../actions';
 
 class Campus extends Component {
   constructor() {
@@ -41,7 +41,7 @@ class Campus extends Component {
   }
 
   handleRemove(event) {
-    this.props.changeStudentCampus(event.target.value);
+    this.props.changeStudentCampus(event.target.value, this.state.id);
   }
 
   handleSubmit(event) {
@@ -71,7 +71,31 @@ class Campus extends Component {
   render() {
     if (!this.props.selectedCampus.id) return <div></div>;
     const campus = this.props.selectedCampus;
-    const students = this.props.selectedCampus.students;
+    const students = campus.students;
+    //only if students exist
+    let studentsList = <li></li>
+    if (students) {
+      const buttonRemove = (
+        (campus.id === 1) ?
+        'btn btn-danger hidden margintopsm marginbelow pull-right moveupsm' :
+        'btn btn-danger margintopsm marginbelow pull-right moveupsm');
+      studentsList = students.map(student => {
+        return (
+          <li className="list-group-item marginbelowsm" key={ student.id }>
+            <div className="marginbelowsm margintopsm">
+              <Link to={ `/student/${ student.id }` }><strong>{student.name}</strong></Link>
+              <button
+                className={ buttonRemove }
+                value={ student.id }
+                onClick={ this.handleRemove }>
+                Remove from Campus
+              </button>
+            </div>
+          </li>
+        )
+      })
+    }
+    //.....................
     return (
       <div>
         <div>
@@ -82,23 +106,7 @@ class Campus extends Component {
           </div>
           <div className="col-sm-8 margintop marginbelow">
             <ul className="list-group">
-              {
-                students.map(student => {
-                  return (
-                    <li className="list-group-item marginbelowsm" key={ student.id }>
-                      <div className="marginbelowsm margintopsm">
-                        <Link to={ `/student/${ student.id }` }><strong>{student.name}</strong></Link>
-                        <button
-                          className="btn btn-danger margintopsm marginbelow pull-right moveupsm"
-                          value={ student.id }
-                          onClick={ this.handleRemove }>
-                          Remove from Campus
-                        </button>
-                      </div>
-                    </li>
-                  )
-                })
-              }
+              { studentsList }
             </ul>
           </div>
         </div>
@@ -148,7 +156,7 @@ function mapStateToProps (state, { router }) {
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({ gotSingleCampus }, dispatch);
+  return bindActionCreators({ gotSingleCampus, changeStudentCampus }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Campus);

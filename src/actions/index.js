@@ -38,6 +38,11 @@ export function gotSingleCampus(campusId) {
   })
 }
 
+export function changeStudentCampus(id, campusId) {
+  return axios.put(`api/students/${ id }/campus`)
+  .then(() => gotSingleCampus(campusId))
+}
+
 
 // need to convert this.........TODO............
 
@@ -47,10 +52,6 @@ export function gotSingleCampus(campusId) {
 
   // removeStudent(id) {
   //   axios.delete(`api/students/${ id }`)
-  // }
-
-  // changeStudentCampus(id) {
-  //   axios.put(`api/students/${ id }/campus`)
   // }
 
   // updateCampus(campusChg) {
