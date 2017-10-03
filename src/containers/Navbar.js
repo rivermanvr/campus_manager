@@ -16,6 +16,15 @@ const Tab = ({ tab, path })=> {
 }
 
 class Navbar extends Component {
+
+  componentDidMount() {
+    console.log('componentDidMount in Navbar')
+  }
+
+  componentWillReceiveProps() {
+    console.log('componentWillReceiveProps in Navbar')
+  }
+
   render() {
     const path = this.props.router.location.pathname;
     const cLen = this.props.campuses.campuses.length
