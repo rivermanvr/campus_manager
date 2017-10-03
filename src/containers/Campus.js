@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { bindActionCreators } from 'redux';
+import { gotSingleCampus } from '../actions';
 
 class Campus extends Component {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
-      campus: {}, name: '', photo: '',
+      id: 0, name: '', photo: '',
       phone: '', errorAdd: '' };
 
     this.handleRemove = this.handleRemove.bind(this);
@@ -16,22 +18,25 @@ class Campus extends Component {
   }
 
   getData() {
-    const campusId = this.props.router.match.params.id;
-    axios.get(`/api/campuses/${ campusId }`)
-      .then(res => res.data)
-      .then(campus => {
-        campus = campus[0];
-        this.setState({
-          campus, name: campus.name, photo: campus.photo.slice(15),
-          phone: campus.phone, errorAdd: '' })
-      })
+    this.setState({
+      id: this.props.selectedCampus.id,
+      name: this.props.selectedCampus.name,
+      photo: this.props.selectedCampus.photo.slice(15),
+      phone: this.props.selectedCampus.phone,
+      errorAdd: ''
+    })
   }
 
   componentDidMount(){
-    this.getData();
+    const campusId = this.props.router.match.params.id;
+    this.props.gotSingleCampus(campusId)
+    .then(() => {
+      this.getData();
+    })
   }
 
   componentWillReceiveProps() {
+    if (!this.props.selectedCampus.id) return;
     this.getData();
   }
 
@@ -43,8 +48,8 @@ class Campus extends Component {
     event.preventDefault();
     if (this.state.name) {
       const campusChg = this.state;
-      campusChg.photo = this.state.campus.photo;
-      this.props.updateCampus(campusChg);
+      campusChg.photo = this.props.selectedCampus.photo;
+      // this.props.updateCampus(campusChg);
     } else {
       this.setState({ errorAdd: 'Name cannot be blank', name: this.state.campus.name });
     }
@@ -64,9 +69,9 @@ class Campus extends Component {
   }
 
   render() {
-    if (!this.state.campus.id) return <div></div>;
-    const campus = this.state.campus;
-    const students = campus.students;
+    if (!this.props.selectedCampus.id) return <div></div>;
+    const campus = this.props.selectedCampus;
+    const students = this.props.selectedCampus.students;
     return (
       <div>
         <div>
@@ -137,4 +142,13 @@ class Campus extends Component {
   }
 }
 
-export default Campus;
+function mapStateToProps (state, { router }) {
+  const selectedCampus = state.campuses.selectedCampus;
+  return { selectedCampus, router };
+}
+
+function mapDispatchToProps (dispatch) {
+  return bindActionCreators({ gotSingleCampus }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Campus);

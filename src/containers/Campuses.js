@@ -30,13 +30,11 @@ class Campuses extends Component {
 
   componentDidMount() {
     this.clearState();
-    console.log('in componentDidMount')
     this.props.fetchData();
   }
 
   componentWillReceiveProps() {
     this.clearState();
-    console.log('in componentWillReceiveProps')
   }
 
   handleRemove(event) {

@@ -3,8 +3,7 @@ import axios from 'axios';
 // ***** ACTION TYPES *****
 
 export const GOT_NEW_DATA = 'GOT_NEW_DATA';
-export const REMOVE_CAMPUS = 'REMOVE_CAMPUS';
-export const ADD_CAMPUS = 'ADD_CAMPUS';
+export const GOT_SINGLE_CAMPUS = 'GOT_SINGLE_CAMPUS';
 
 // ***** THUNK & ACTION CREATORS *****
 
@@ -27,6 +26,15 @@ export function fetchData() {
     const campuses = results[0].data
     const students = results[1].data
     return { type: GOT_NEW_DATA, payload: { students, campuses } };
+  })
+}
+
+export function gotSingleCampus(campusId) {
+  return axios.get(`/api/campuses/${ campusId }`)
+  .then(res => res.data)
+  .then(_campus => {
+    const selectedCampus = _campus[0];
+    return { type: GOT_SINGLE_CAMPUS, payload: selectedCampus };
   })
 }
 
