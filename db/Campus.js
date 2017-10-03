@@ -41,16 +41,38 @@ Campus.campusFindById = function (id) {
   })
 }
 
+// Campus.campusRemove = function (id) {
+//   this.campusFindById(id)
+//     .then(campus => {
+//       console.log(campus[0].students.length, campus)
+//       if (campus[0].students.length) {
+//         const promiseArr = campus[0].students.map(student => {
+//           student.campusId = 1;
+//           return student.save();
+//         })
+//         return Promise.all(promiseArr);
+//       } else {
+//         return null;
+//       }
+//     })
+//     .then(() => this.destroy({ where: { id } }))
+// }
+
 Campus.campusRemove = function (id) {
   this.campusFindById(id)
-    .then(campus => {
-      const promiseArr = campus[0].students.map(student => {
+  .then(_campus => {
+    const campus = _campus[0];
+    const promiseArr = [];
+    promiseArr.push(this.destroy({ where: { id: id * 1 } }));
+    console.log(campus.students.length, campus)
+    if (campus.students.length) {
+      campus.students.forEach(student => {
         student.campusId = 1;
-        return student.save();
+        promiseArr.push(student.save());
       })
-      return Promise.all(promiseArr);
-    })
-    .then(() => this.destroy({ where: { id } }))
+    }
+    return Promise.all(promiseArr);
+  })
 }
 
 module.exports = Campus;

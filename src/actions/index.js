@@ -9,8 +9,8 @@ export const ADD_CAMPUS = 'ADD_CAMPUS';
 // ***** THUNK & ACTION CREATORS *****
 
 export function removeCampus(campusId) {
-  console.log('in campusRemove action: ', campusId)
-  return { type: REMOVE_CAMPUS, payload: campusId };
+  return axios.delete(`api/campuses/${ campusId }`)
+  .then(() => fetchData())
 }
 
 export function addCampus(campusNew) {
@@ -32,14 +32,6 @@ export function fetchData() {
 
 
 // need to convert this.........TODO............
-
-  // addCampus(newCampus) {
-  //   axios.post('api/campuses', newCampus)
-  // }
-
-  // removeCampus(id) {
-  //   axios.delete(`api/campuses/${ id }`)
-  // }
 
   // addStudent(newStudent) {
   //   axios.post('api/students', newStudent)

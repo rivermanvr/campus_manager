@@ -7,7 +7,7 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case GOT_NEW_DATA:
       return Object.assign({}, state, { campuses: action.payload.campuses });
     default:

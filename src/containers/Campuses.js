@@ -34,6 +34,11 @@ class Campuses extends Component {
     this.props.fetchData();
   }
 
+  componentWillReceiveProps() {
+    this.clearState();
+    console.log('in componentWillReceiveProps')
+  }
+
   handleRemove(event) {
     event.preventDefault();
     if (this.state.selectCampus) {
@@ -161,8 +166,6 @@ class Campuses extends Component {
 }
 
 function mapStateToProps (state) {
-  //------------checking my work----------------
-  console.log('.....in mapStateTo Props: ', state);
   const { campuses } = state;
   return { campuses };
 }
