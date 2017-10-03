@@ -80,3 +80,21 @@ export function gotSingleStudent(id) {
     return { type: GOT_SINGLE_STUDENT, payload: selectedStudent };
   })
 }
+
+
+// getData() {
+//   const id = this.props.router.match.params.id;
+//   let student = {};
+//   axios.get(`/api/students/${ id }`)
+//     .then(res => res.data)
+//     .then(_student => {
+//       student = _student[0];
+//       return axios.get(`/api/campuses/${ student.campusId }`)
+//     })
+//     .then(campus => {
+//       this.setState({
+//         student, campus, name: student.name, photo: student.photo.slice(87),
+//         phone: student.phone, email: student.email, campusId: student.campusId, errorAdd: '' })
+//     })
+
+// }
