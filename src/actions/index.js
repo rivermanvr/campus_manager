@@ -48,22 +48,21 @@ export function updateCampus(campusChg) {
     return axios.put(`/api/campuses/${ campusId }`, campusChg)
     .then(res => res.data)
     .then(campus => {
-      console.log('returned campusInst', campus)
       return gotSingleCampus(campus.id)
     })
   }
 
+export function removeStudent(id) {
+    return axios.delete(`api/students/${ id }`)
+    .then(() => fetchData())
+}
+
+export function addStudent(newStudent) {
+    return axios.post('api/students', newStudent)
+    .then(() => fetchData())
+}
 
 // need to convert this.........TODO............
-
-  // addStudent(newStudent) {
-  //   axios.post('api/students', newStudent)
-  // }
-
-  // removeStudent(id) {
-  //   axios.delete(`api/students/${ id }`)
-  // }
-
 
   // updateStudent(studentChg) {
   //   const id = studentChg.student.id;

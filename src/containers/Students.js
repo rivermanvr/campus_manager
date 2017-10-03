@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { removeStudent, addStudent, fetchData } from '../actions';
 
 class Students extends Component {
-  constructor({ students, campuses, addStudent, removeStudent }) {
+  constructor() {
     super();
     this.state = {
       name: '', phone: '', email: '', campusId: 1, errorAdd: '',
@@ -22,8 +25,12 @@ class Students extends Component {
     this.clearState();
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.students.students.length) {
+      this.props.fetchData();
+    }
     this.clearState();
+
   }
 
   handleRemove(event) {
@@ -50,7 +57,7 @@ class Students extends Component {
       case 'phone':
         this.setState({ phone: value });
         break;
-        case 'email':
+      case 'email':
         this.setState({ email: value });
         break;
       case 'campusId':
@@ -60,9 +67,8 @@ class Students extends Component {
   }
 
   render() {
-    const students = this.props.students;
-    const campuses = this.props.campuses;
-    const changeCampus = this.props.changeCampus;
+    const students = this.props.students.students;
+    const campuses = this.props.campuses.campuses;
     if (!students.length) return <div></div>;
     const none = [{ id: '0', name: '--none--' }];
     const campusesSelect = none.concat(campuses);
@@ -93,6 +99,9 @@ class Students extends Component {
         </div>
         <div className="col-sm-4 margintop">
           <div className="row">
+            <div className="textBlue col-sm-10 panel panel-default center">
+              Please be aware that Removing the Student Record is a permanent deletion.
+            </div>
             <div className="col-sm-10 panel panel-default">
               <h5 className="center panel-heading">Add a Student</h5>
               <form onSubmit={ this.handleSubmit }>
@@ -153,9 +162,6 @@ class Students extends Component {
                 <div className="center textRed marginbelow">{ this.state.errorAdd }</div>
               </form>
             </div>
-            <div className="textBlue col-sm-10 panel panel-default center">
-              Please be aware that Removing the Student Record is a permanent deletion.
-            </div>
           </div>
         </div>
       </div>
@@ -163,4 +169,14 @@ class Students extends Component {
   }
 }
 
-export default Students;
+function mapStateToProps (state) {
+  const { campuses, students } = state;
+  console.log('in mapStateToProps:', campuses, students)
+  return { campuses, students };
+}
+
+function mapDispatchToProps (dispatch) {
+  return bindActionCreators({ removeStudent, addStudent, fetchData }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Students);
