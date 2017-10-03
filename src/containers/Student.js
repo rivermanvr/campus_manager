@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { bindActionCreators } from 'redux';
+import {  } from '../actions';
+
 
 class Student extends Component {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
-      student: {}, campus: {}, name: '', photo: '',
-      phone: '', email: '', campusId: 0, errorAdd: '' };
+      name: '', photo: '', campusId: 0,
+      phone: '', email: '', errorAdd: '' };
 
     this.getData = this.getData.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -153,4 +156,13 @@ class Student extends Component {
   }
 }
 
-export default Student;
+function mapStateToProps (state, { router }) {
+  const selectedCampus = state.campuses.selectedCampus;
+  return { selectedCampus, router };
+}
+
+function mapDispatchToProps (dispatch) {
+  return bindActionCreators({ gotSingleCampus, changeStudentCampus, updateCampus }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Student);

@@ -4,6 +4,7 @@ import axios from 'axios';
 
 export const GOT_NEW_DATA = 'GOT_NEW_DATA';
 export const GOT_SINGLE_CAMPUS = 'GOT_SINGLE_CAMPUS';
+export const GOT_SINGLE_STUDENT = 'GOT_SINGLE_STUDENT';
 
 // ***** THUNK & ACTION CREATORS *****
 
@@ -44,27 +45,38 @@ export function changeStudentCampus(id, campusId) {
 }
 
 export function updateCampus(campusChg) {
-    const campusId = campusChg.id;
-    return axios.put(`/api/campuses/${ campusId }`, campusChg)
-    .then(res => res.data)
-    .then(campus => {
-      return gotSingleCampus(campus.id)
-    })
-  }
+  const campusId = campusChg.id;
+  return axios.put(`/api/campuses/${ campusId }`, campusChg)
+  .then(res => res.data)
+  .then(campus => {
+    return gotSingleCampus(campus.id)
+  })
+}
 
 export function removeStudent(id) {
-    return axios.delete(`api/students/${ id }`)
-    .then(() => fetchData())
+  return axios.delete(`/api/students/${ id }`)
+  .then(() => fetchData())
 }
 
 export function addStudent(newStudent) {
-    return axios.post('api/students', newStudent)
-    .then(() => fetchData())
+  return axios.post('/api/students', newStudent)
+  .then(() => fetchData())
 }
 
-// need to convert this.........TODO............
+export function updateStudent(studentChg) {
+  const id = studentChg.id;
+  return axios.put(`/api/students/${ id }`, studentChg)
+  .then(res => res.data)
+  .then(student => {
+    return gotSingleStudent(student.id);
+  })
+}
 
-  // updateStudent(studentChg) {
-  //   const id = studentChg.student.id;
-  //   axios.put(`/api/students/${ id }`, studentChg)
-  // }
+export function gotSingleStudent(id) {
+  axios.get(`/api/students/${ id }`)
+  .then(res => res.data)
+  .then(_student => {
+    const selectedStudent = _student[0];
+    return { type: GOT_SINGLE_STUDENT, payload: selectedStudent };
+  })
+}
