@@ -2,44 +2,48 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import {  } from '../actions';
+import { gotSingleStudent } from '../actions';
 
 
 class Student extends Component {
   constructor() {
     super();
     this.state = {
-      name: '', photo: '', campusId: 0,
+      id: 0, name: '', photo: '', campusId: 0,
       phone: '', email: '', errorAdd: '' };
 
-    this.getData = this.getData.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInput = this.handleInput.bind(this);
   }
 
-  getData() {
-    const id = this.props.router.match.params.id;
-    let student = {};
-    axios.get(`/api/students/${ id }`)
-      .then(res => res.data)
-      .then(_student => {
-        student = _student[0];
-        return axios.get(`/api/campuses/${ student.campusId }`)
-      })
-      .then(campus => {
-        this.setState({
-          student, campus, name: student.name, photo: student.photo.slice(87),
-          phone: student.phone, email: student.email, campusId: student.campusId, errorAdd: '' })
-      })
-
-  }
-
   componentDidMount(){
-    this.getData();
+    const id = this.props.router.match.params.id;
+    this.props.gotSingleStudent(id)
+    .then(() => {
+      this.setState({
+        id: this.props.selectedStudent.id,
+        name: this.props.selectedStudent.name,
+        photo: this.props.selectedStudent.photo.slice(15),
+        phone: this.props.selectedStudent.phone,
+        email: this.props.selectedStudent.email,
+        campusId: this.props.selectedStudent.campusId,
+        errorAdd: ''
+      })
+    })
   }
 
-  componentWillReceiveProps() {
-    this.getData();
+  componentWillReceiveProps(nextProps) {
+    //there is also: currentProps
+    if (!nextProps.selectedStudent.id) return;
+    this.setState({
+      id: nextProps.selectedStudent.id,
+      name: nextProps.selectedStudent.name,
+      photo: nextProps.selectedStudent.photo.slice(15),
+      phone: nextProps.selectedStudent.phone,
+      email: nextProps.selectedStudent.email,
+      campusId: nextProps.selectedStudent.campusId,
+      errorAdd: ''
+    })
   }
 
   handleSubmit(event) {
@@ -157,12 +161,12 @@ class Student extends Component {
 }
 
 function mapStateToProps (state, { router }) {
-  const selectedCampus = state.campuses.selectedCampus;
-  return { selectedCampus, router };
+  const selectedStudent = state.students.selectedStudents;
+  return { selectedStudent, router };
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({ gotSingleCampus, changeStudentCampus, updateCampus }, dispatch);
+  return bindActionCreators({ gotSingleStudent }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Student);

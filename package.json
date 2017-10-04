@@ -15,7 +15,7 @@
   },
   "scripts": {
     "postinstall": "npm run webpack",
-    "build:css": "node-sass -w -r css/scss -o css",
+    "build:css": "node-sass -w -r public/css/scss -o public/css",
     "seed": "node seed.js",
     "test": "mocha **/*.test.js *.test.js",
     "webpack": "./node_modules/webpack/bin/webpack.js",
